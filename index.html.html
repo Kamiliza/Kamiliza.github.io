@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caja 3D con Imágenes</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f2f2f2;
+            overflow: hidden;
+        }
+
+        .escena {
+            perspective: 1500px;
+            width: 300px;
+            height: 300px;
+            position: relative;
+        }
+
+        .cubo {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transform: rotateX(-30deg) rotateY(-45deg);
+            animation: rotarCubo 3s linear; /* Gira por 3 segundos */
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes rotarCubo {
+            0% { transform: rotateX(-30deg) rotateY(-45deg); }
+            100% { transform: rotateX(-30deg) rotateY(45deg); }
+        }
+
+        .cara {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://img.freepik.com/vector-premium/diseno-patrones-navidenos-envolver-envolver-regalos-textiles-telas-papel-albumes-recortes_520531-462.jpg?w=740');
+            background-size: cover;
+            border: 2px solid #fff;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .frontal  { transform: translateZ(150px); }
+        .trasera  { transform: rotateY(180deg) translateZ(150px); }
+        .izquierda { transform: rotateY(-90deg) translateZ(150px); }
+        .derecha   { transform: rotateY(90deg) translateZ(150px); }
+        .superior  { transform: rotateX(90deg) translateZ(150px); }
+        .inferior  { transform: rotateX(-90deg) translateZ(150px); }
+
+        /* Animación para desaparecer */
+        @keyframes desaparecer {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .cubo .cara {
+            animation: desaparecer 2s ease-in-out forwards;
+            animation-delay: 3s; /* Empieza a desaparecer a los 3 segundos */
+        }
+
+        /* Estilo para las imágenes */
+        .imagenes {
+            display: none; /* Ocultas inicialmente */
+            position: absolute;
+            flex-direction: row;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .imagenes img {
+            width: 100px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            animation: aparecer 2s ease-in-out forwards;
+        }
+
+        @keyframes aparecer {
+            0% { opacity: 0; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .imagenes img {
+    width: 200px; /* Aumenta el ancho */
+    height: auto; /* Mantiene la proporción */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    animation: aparecer 2s ease-in-out forwards;
+}
+
+        /* Luces navideñas */
+        .luces-superior,
+        .luces-inferior {
+            display: flex;
+            justify-content: space-evenly;
+            position: absolute;
+            width: 100%;
+        }
+
+        .luces-superior {
+            top: 20px;
+        }
+
+        .luces-inferior {
+            bottom: 20px;
+        }
+
+        .luz {
+            width: 15px;
+            height: 15px;
+            background-color: red;
+            border-radius: 50%;
+            animation: parpadeo 1.5s infinite alternate;
+        }
+
+        @keyframes parpadeo {
+            0% {
+                opacity: 0.3;
+                background-color: red;
+            }
+            50% {
+                opacity: 1;
+                background-color: yellow;
+            }
+            100% {
+                opacity: 0.3;
+                background-color: green;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Luces Navideñas en la parte superior -->
+<div class="luces-superior">
+    <div class="luz"></div>
+    <div class="luz"></div>
+    <div class="luz"></div>
+    <div class="luz"></div>
+    <div class="luz"></div>
+</div>
+
+<div class="escena">
+    <div class="cubo">
+        <div class="cara frontal"></div>
+        <div class="cara trasera"></div>
+        <div class="cara izquierda"></div>
+        <div class="cara derecha"></div>
+        <div class="cara superior"></div>
+        <div class="cara inferior"></div>
+    </div>
+</div>
+
+<div class="imagenes">
+    <img src="https://resources.sears.com.mx/medios-plazavip/t1/1723774351osogigante1png?scale=500&qlty=75" alt="Ojo de Peluche">
+    <img src="https://moneces.es/1563-large_default/taza-feliz-navidad.jpg" alt="Taza Navideña">
+    <img src="https://http2.mlstatic.com/D_NQ_NP_794289-MLM48558420324_122021-O.webp" alt="Peluche Sans">
+</div>
+
+<!-- Luces Navideñas en la parte inferior -->
+<div class="luces-inferior">
+    <div class="luz"></div>
+    <div class="luz"></div>
+    <div class="luz"></div>
+    <div class="luz"></div>
+    <div class="luz"></div>
+</div>
+
+<!-- Reproductor de YouTube -->
+<iframe 
+    style="display: none;" 
+    src="https://www.youtube.com/embed/8BIeGdBjJiU?autoplay=1&loop=1&playlist=8BIeGdBjJiU" 
+    frameborder="0" 
+    allow="autoplay">
+</iframe>
+
+<script>
+    // Sincronizar aparición de imágenes con la desaparición de la caja
+    setTimeout(() => {
+        const imagenes = document.querySelector('.imagenes');
+        imagenes.style.display = 'flex';
+    }, 3000); // Aparecen exactamente cuando la caja comienza a desaparecer
+</script>
+
+</body>
+</html>
